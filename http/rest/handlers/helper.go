@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 
 	"github.com/randyVerduguez/randy-verduguez_06122023-BE-challenge/pkg/erru"
@@ -35,4 +38,24 @@ func (s service) respond(w http.ResponseWriter, data interface{}, status int) {
 			return
 		}
 	}
+}
+
+func (s service) readRequestBody(r *http.Request) ([]byte, error) {
+	var bodyBytes []byte
+	var err error
+
+	if r.Body != nil {
+		bodyBytes, err = io.ReadAll(r.Body)
+
+		if err != nil {
+			err := errors.New("could not read request body")
+			return nil, err
+		}
+	}
+
+	return bodyBytes, err
+}
+
+func (s service) restoreRequestBody(r *http.Request, bodyBytes []byte) {
+	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 }

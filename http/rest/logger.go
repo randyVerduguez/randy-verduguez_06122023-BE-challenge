@@ -1,19 +1,36 @@
 package rest
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/sirupsen/logrus"
 )
 
-func NewLogger() *logrus.Logger {
+func NewLogger() (*logrus.Logger, error) {
 	log := logrus.New()
-	log.SetOutput(os.Stdout)
-	log.SetLevel(logrus.InfoLevel)
+	absPath, err := filepath.Abs("../../logs")
+
+	if err != nil {
+		error := fmt.Errorf("Error reading given path: %s", err)
+		return log, error
+	}
+
+	filename := fmt.Sprintf("%s/%s", absPath, "http-log.log")
+	flags := os.O_RDWR | os.O_CREATE | os.O_TRUNC
+	logFile, err := os.OpenFile(filename, flags, 0666)
+
+	if err != nil {
+		error := fmt.Errorf("Error opening file: %s", err)
+		return log, error
+	}
+
+	log.SetOutput(logFile)
+	log.SetLevel(logrus.TraceLevel)
 	log.SetFormatter(&logrus.TextFormatter{
-		ForceColors:     true,
-		TimestampFormat: "2006-01-02 15:04:05.999999999",
-		FullTimestamp:   true,
+		ForceColors:      false,
+		DisableTimestamp: true,
 	})
-	return log
+	return log, nil
 }

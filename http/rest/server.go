@@ -42,7 +42,12 @@ func NewServer() (*Server, error) {
 		return nil, err
 	}
 
-	log := NewLogger()
+	log, err := NewLogger()
+
+	if err != nil {
+		return nil, err
+	}
+
 	router := mux.NewRouter()
 
 	handlers.Register(router, log, database)
