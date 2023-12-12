@@ -9,7 +9,8 @@ import (
 
 type Config struct {
 	Database   Database
-	ServerPort int `envconfig:"SERVER_PORT" default:"80"`
+	ServerPort int    `envconfig:"SERVER_PORT" default:"80"`
+	ApiKey     string `envconfig:"API_KEY"`
 }
 
 type Database struct {

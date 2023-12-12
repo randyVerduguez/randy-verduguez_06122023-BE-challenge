@@ -57,9 +57,14 @@ func NewServer() (*Server, error) {
 }
 
 func (s *Server) Run(ctx context.Context) error {
+	cors := cors.New(cors.Options{
+		AllowedMethods: []string{"GET"},
+		AllowedOrigins: []string{"http://localhost:4200"},
+	})
+
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%d", s.config.ServerPort),
-		Handler: cors.Default().Handler(s.router),
+		Handler: cors.Handler(s.router),
 	}
 
 	stopServer := make(chan os.Signal, 1)
