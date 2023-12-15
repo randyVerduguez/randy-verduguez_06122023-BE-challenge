@@ -16,14 +16,16 @@ type ConfigDB struct {
 }
 
 func Connect(config ConfigDB) (*sqlx.DB, error) {
-	dsn := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		config.Host,
-		config.Port,
+	dataSourceName := fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		config.User,
 		config.Password,
+		config.Host,
+		config.Port,
 		config.Name,
 	)
-	db, err := sqlx.Connect("postgres", dsn)
+	fmt.Println(dataSourceName)
+	db, err := sqlx.Connect("postgres", dataSourceName)
+
 	return db, err
 }

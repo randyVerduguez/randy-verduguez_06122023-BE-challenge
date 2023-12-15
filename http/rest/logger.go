@@ -10,7 +10,7 @@ import (
 
 func NewLogger() (*logrus.Logger, error) {
 	log := logrus.New()
-	absPath, err := filepath.Abs("../../logs")
+	absPath, err := filepath.Abs("/src/logs")
 
 	if err != nil {
 		error := fmt.Errorf("Error reading given path: %s", err)
@@ -22,7 +22,7 @@ func NewLogger() (*logrus.Logger, error) {
 	logFile, err := os.OpenFile(filename, flags, 0666)
 
 	if err != nil {
-		error := fmt.Errorf("Error opening file: %s", err)
+		error := fmt.Errorf("%s", err)
 		return log, error
 	}
 
