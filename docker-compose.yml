@@ -17,6 +17,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
+    restart: always
+    networks:
+      - weather
   go_app:
     container_name: go_app
     image: randyunosquare/go_app:1.0.0
@@ -28,9 +31,7 @@ services:
       - DATABASE_PORT=${DATABASE_PORT}
       - API_KEY=${API_KEY}
     tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile 
+    build: .
     ports:
       - 8080:8080
     volumes:
@@ -40,3 +41,6 @@ services:
     restart: on-failure
 volumes:
   db_data: {}
+networks:
+  weather:
+    driver: bridge
