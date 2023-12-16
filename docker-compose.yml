@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   go_container:
-    image: randyunosquare/go_app
     container_name: go_container
     environment:
       - DATABASE_USER=${DATABASE_USER}
@@ -16,10 +15,12 @@ services:
     volumes:
       - .:/src
     depends_on:
-      - postgres_container
+      postgres_container:
+        condition: service_healthy
     restart: on-failure
     networks:
       - weather
+
   postgres_container:
     container_name: postgres_container 
     user: postgres
