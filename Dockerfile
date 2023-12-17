@@ -10,6 +10,6 @@ COPY . .
 
 RUN go mod download && go mod verify
 
-WORKDIR /src/cmd/app
+RUN go build -o main cmd/app/main.go
 
-RUN go run main.go
+ENTRYPOINT [ "./main" ]

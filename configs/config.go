@@ -22,7 +22,7 @@ type Database struct {
 }
 
 func NewParsedConfig() (Config, error) {
-	env_err := godotenv.Load("../../.env")
+	env_err := godotenv.Load(".env")
 
 	if env_err != nil {
 		fmt.Errorf("Error loading .env file %w", env_err)

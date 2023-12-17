@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   go_container:
     container_name: go_container
@@ -18,6 +17,7 @@ services:
       postgres_container:
         condition: service_healthy
     restart: on-failure
+    tty: true
     networks:
       - weather
 
