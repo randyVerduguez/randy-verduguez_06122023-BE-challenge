@@ -62,9 +62,11 @@ func NewServer() (*Server, error) {
 }
 
 func (s *Server) Run(ctx context.Context) error {
+	// cors := cors.AllowAll()
 	cors := cors.New(cors.Options{
 		AllowedMethods: []string{"GET"},
-		AllowedOrigins: []string{"http://localhost:4200"},
+		AllowedOrigins: []string{"*"},
+		// AllowedOrigins: []string{"http://localhost:4200"},
 	})
 
 	server := http.Server{
@@ -85,7 +87,7 @@ func (s *Server) Run(ctx context.Context) error {
 
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
-		s.logger.Printf("REST API listening on port %d", s.config.ServerPort)
+		s.logger.Printf("REST API listening on  %d", s.config.ServerPort)
 		serverErrors <- server.ListenAndServe()
 	}(&wg)
 

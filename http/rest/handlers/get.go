@@ -12,7 +12,7 @@ import (
 	"github.com/randyVerduguez/randy-verduguez_06122023-BE-challenge/pkg/erru"
 )
 
-func (s service) Get() http.HandlerFunc {
+func (s service) GetCurrentWeather() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var request types.Request
 
@@ -67,6 +67,12 @@ func (s service) Get() http.HandlerFunc {
 			Humidity:   getResponse.Humidity,
 			CreatedOn:  getResponse.CreatedOn,
 		}, http.StatusOK)
+	}
+}
+
+func (s service) Test() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		s.respond(w, "Welcome :)", http.StatusOK)
 	}
 }
 
