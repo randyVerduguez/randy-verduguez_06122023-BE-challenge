@@ -9,7 +9,7 @@ import (
 
 type Config struct {
 	Database   Database
-	ServerPort int    `envconfig:"SERVER_PORT" default:"80"`
+	ServerPort int    `envconfig:"SERVER_PORT"`
 	ServerIP   string `envconfig:"SERVER_IP"`
 	ApiKey     string `envconfig:"API_KEY"`
 }
@@ -26,7 +26,8 @@ func NewParsedConfig() (Config, error) {
 	env_err := godotenv.Load(".env")
 
 	if env_err != nil {
-		fmt.Errorf("Error loading .env file %w", env_err)
+		env_err = fmt.Errorf("Error loading .env file %w", env_err)
+		return Config{}, env_err
 	}
 
 	config := Config{}

@@ -62,11 +62,9 @@ func NewServer() (*Server, error) {
 }
 
 func (s *Server) Run(ctx context.Context) error {
-	// cors := cors.AllowAll()
 	cors := cors.New(cors.Options{
 		AllowedMethods: []string{"GET"},
 		AllowedOrigins: []string{"*"},
-		// AllowedOrigins: []string{"http://localhost:4200"},
 	})
 
 	server := http.Server{
